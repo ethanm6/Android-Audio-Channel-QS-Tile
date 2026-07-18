@@ -29,7 +29,7 @@ This is a fork of [VarunS2002/Android-Audio-Channel-QS-Tile](https://github.com/
 
 Grab the APK from the [Releases](https://github.com/ethanm6/Android-Audio-Channel-QS-Tile/releases/) page, or add this repo to Obtainium to get updates automatically:
 
-[<img src="https://raw.githubusercontent.com/ImranR98/Obtainium/main/assets/graphics/badge_obtainium.png" alt="Get it on Obtainium" height="55">](https://apps.obtainium.imranr.dev/redirect.html?r=obtainium://add/https://github.com/ethanm6/Android-Audio-Channel-QS-Tile)
+[<img src="https://raw.githubusercontent.com/ImranR98/Obtainium/main/assets/graphics/badge_obtainium.png" alt="Get it on Obtainium" height="80">](https://apps.obtainium.imranr.dev/redirect.html?r=obtainium://add/https://github.com/ethanm6/Android-Audio-Channel-QS-Tile)
 
 > [!IMPORTANT]
 > On **Android 14+** the normal package installer refuses apps targeting SDK < 23, so tapping the APK won't work. Install via adb (`adb install --bypass-low-target-sdk-block <apk>`), or use **Obtainium with the Shizuku or root install method**, which applies the bypass automatically. Android 7–13 installs normally.
