@@ -1,14 +1,17 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdk 32
+    namespace 'com.varuns2002.audio_channel_qs_tile'
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.varuns2002.audio_channel_qs_tile"
         minSdk 24
+        // Deliberately frozen at 22: from SDK 23 on, apps may only write whitelisted public
+        // Settings.System keys, and "master_mono" is not one of them.
         targetSdk 22
         versionCode 1
         versionName "1.0.0"
@@ -28,17 +31,17 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
-    packagingOptions {
-        exclude "/META-INF/*.kotlin_module"
-        exclude "**/kotlin/**"
-        exclude "kotlin-tooling-metadata.json"
+    packaging {
+        resources {
+            excludes += ['/META-INF/*.kotlin_module', '**/kotlin/**', 'kotlin-tooling-metadata.json']
+        }
     }
 }
