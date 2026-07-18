@@ -69,7 +69,7 @@ object MonoTimer {
 
     /** Formats seconds as "MM:SS", or "∞" when infinite (-1). */
     fun formatRemaining(seconds: Int): String {
-        if (seconds < 0) return "∞" // ∞
+        if (seconds < 0) return "∞"
         return String.format("%02d:%02d", seconds / 60 % 60, seconds % 60)
     }
 
