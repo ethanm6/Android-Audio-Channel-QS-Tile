@@ -6,6 +6,8 @@ Android app which adds a Quick Settings Tile to control the “Audio Channel” 
 
 This is a fork of [VarunS2002/Android-Audio-Channel-QS-Tile](https://github.com/VarunS2002/Android-Audio-Channel-QS-Tile) that puts Mono on a timer, working just like LineageOS's Caffeine tile: Mono automatically switches back to Stereo when the timer runs out.
 
+<img src="screenshots/tile_mono.png" alt="Quick Settings tile while Mono is on, counting down from 04:58" width="244">
+
 ## Features
 
 - Tapping the tile enables Mono and starts a countdown, shown live on the tile
