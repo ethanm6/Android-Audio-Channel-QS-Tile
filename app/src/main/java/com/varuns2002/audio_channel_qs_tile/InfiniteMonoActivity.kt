@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.Toast
 
 /**
  * Invisible activity launched by long-pressing the tile (via the QS_TILE_PREFERENCES intent
@@ -16,6 +17,7 @@ class InfiniteMonoActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!Settings.System.canWrite(this)) {
+            Toast.makeText(this, R.string.toast_grant_write_settings, Toast.LENGTH_LONG).show()
             val intent = Intent("android.settings.action.MANAGE_WRITE_SETTINGS")
             intent.data = Uri.parse("package:$packageName")
             startActivity(intent)

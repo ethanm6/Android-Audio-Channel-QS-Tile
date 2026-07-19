@@ -3,4 +3,5 @@
     <string name="qs_tile_label">Toggle Audio Channel</string>
     <string name="label_and_subtitle_mono">Mono</string>
     <string name="label_and_subtitle_stereo">Stereo</string>
+    <string name="toast_grant_write_settings">To switch Mono audio, allow \"Modify system settings\" for this app</string>
 </resources>
