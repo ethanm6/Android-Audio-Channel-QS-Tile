@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.SystemClock
-import android.provider.Settings
 import android.service.quicksettings.TileService
 
 /**
@@ -39,17 +38,6 @@ object MonoTimer {
     private fun prefs(context: Context): SharedPreferences =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
-    // region audio state
-
-    fun isMonoOn(context: Context): Boolean = try {
-        Settings.System.getInt(context.contentResolver, "master_mono") == 1
-    } catch (exception: Settings.SettingNotFoundException) {
-        exception.printStackTrace()
-        false
-    }
-
-    // endregion
-
     // region timer state
 
     fun durationIndex(context: Context): Int = prefs(context).getInt(KEY_DURATION_INDEX, -1)
@@ -80,7 +68,13 @@ object MonoTimer {
         val now = SystemClock.elapsedRealtime()
         val lastClick = prefs(context).getLong(KEY_LAST_CLICK, -1L)
 
-        if (isMonoOn(context) && lastClick != -1L && now - lastClick < CYCLE_WINDOW_MS) {
+        // The session bookkeeping is the single source of truth: a session is active iff a
+        // duration is set. The live "master_mono" setting is deliberately not consulted — in
+        // the privileged flavor it is written asynchronously and lags a tap by a moment, which
+        // would make the state machine (and the tile) act on a stale value.
+        val on = durationIndex(context) != -1
+
+        if (on && lastClick != -1L && now - lastClick < CYCLE_WINDOW_MS) {
             // cycle to the next duration
             val nextIndex = durationIndex(context) + 1
             if (nextIndex >= DURATIONS.size) {
@@ -90,7 +84,7 @@ object MonoTimer {
             }
         } else {
             // toggle
-            if (isMonoOn(context)) {
+            if (on) {
                 turnOff(context)
             } else {
                 startDuration(context, 0)

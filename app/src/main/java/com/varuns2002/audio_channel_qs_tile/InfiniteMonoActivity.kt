@@ -16,7 +16,7 @@ class InfiniteMonoActivity : Activity() {
             AudioSwitch.requestAccess(this)
         } else {
             val infiniteIndex = MonoTimer.DURATIONS.size - 1
-            if (!(MonoTimer.isMonoOn(this) && MonoTimer.durationIndex(this) == infiniteIndex)) {
+            if (MonoTimer.durationIndex(this) != infiniteIndex) {
                 MonoTimer.startDuration(this, infiniteIndex)
             }
             MonoTimer.refreshTile(this)
