@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Audio Channel QS Tile (Shizuku/Root)</string>
+    <string name="toast_grant_shizuku">Approve Shizuku access to let the tile switch Mono audio</string>
+    <string name="toast_need_shizuku_or_root">Switching Mono audio failed: this build needs Shizuku running or root access</string>
+</resources>

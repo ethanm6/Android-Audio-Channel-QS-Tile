@@ -1,0 +1,3 @@
+<resources>
+    <string name="toast_grant_write_settings">To switch Mono audio, allow \"Modify system settings\" for this app</string>
+</resources>

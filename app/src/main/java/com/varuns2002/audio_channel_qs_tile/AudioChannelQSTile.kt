@@ -1,14 +1,10 @@
 package com.varuns2002.audio_channel_qs_tile
 
-import android.content.Intent
 import android.graphics.drawable.Icon
-import android.net.Uri
 import android.os.Build
 import android.os.CountDownTimer
-import android.provider.Settings
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import android.widget.Toast
 
 class AudioChannelQSTile : TileService() {
 
@@ -28,12 +24,8 @@ class AudioChannelQSTile : TileService() {
 
     override fun onClick() {
         super.onClick()
-        if (!Settings.System.canWrite(this)) {
-            Toast.makeText(this, R.string.toast_grant_write_settings, Toast.LENGTH_LONG).show()
-            val intent = Intent("android.settings.action.MANAGE_WRITE_SETTINGS")
-            intent.data = Uri.parse("package:$packageName")
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+        if (!AudioSwitch.isReady(this)) {
+            AudioSwitch.requestAccess(this)
             return
         }
         MonoTimer.handleClick(this)

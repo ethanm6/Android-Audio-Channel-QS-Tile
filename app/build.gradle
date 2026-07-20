@@ -17,11 +17,28 @@ android {
     defaultConfig {
         applicationId "com.varuns2002.audio_channel_qs_tile"
         minSdk 24
-        // Deliberately frozen at 22: from SDK 23 on, apps may only write whitelisted public
-        // Settings.System keys, and "master_mono" is not one of them.
-        targetSdk 22
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 4
+        versionName "1.2.0"
+    }
+
+    flavorDimensions = ['access']
+    productFlavors {
+        // How the flavors differ: each has its own AudioSwitch implementation (src/<flavor>/java)
+        // and manifest overlay, deciding how "master_mono" gets written.
+        standard {
+            dimension 'access'
+            // Deliberately frozen at 22: from SDK 23 on, apps may only write whitelisted public
+            // Settings.System keys, and "master_mono" is not one of them.
+            targetSdk 22
+        }
+        privileged {
+            dimension 'access'
+            // Writes go through Shizuku (shell UID) or root, both exempt from the targetSdk
+            // restriction above, so this flavor can target the current SDK and install
+            // without the low-target-SDK workarounds.
+            targetSdk 36
+            applicationIdSuffix '.privileged'
+        }
     }
 
     signingConfigs {
@@ -62,8 +79,14 @@ android {
     }
 
     lint {
-        // targetSdk 22 is deliberate (see defaultConfig); this app cannot ship on
-        // Google Play anyway, so the Play target-API requirement does not apply.
+        // targetSdk 22 is deliberate in the standard flavor (see productFlavors); this app
+        // cannot ship on Google Play anyway, so the Play target-API requirement does not apply.
         disable 'ExpiredTargetSdkVersion'
     }
+}
+
+dependencies {
+    privilegedImplementation 'dev.rikka.shizuku:api:13.1.5'
+    privilegedImplementation 'dev.rikka.shizuku:provider:13.1.5'
+    privilegedImplementation 'com.github.topjohnwu.libsu:core:6.0.0'
 }

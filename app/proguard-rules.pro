@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# The privileged flavor calls the hidden Shizuku.newProcess via reflection.
+# (No-op in the standard flavor, which doesn't ship Shizuku at all.)
+-keepclassmembers class rikka.shizuku.Shizuku {
+    *** newProcess(...);
+}

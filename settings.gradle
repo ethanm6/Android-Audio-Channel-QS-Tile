@@ -10,6 +10,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // libsu (root access in the privileged flavor) is published on JitPack.
+        maven { url 'https://jitpack.io' }
     }
 }
 rootProject.name = "Audio Channel QS Tile"

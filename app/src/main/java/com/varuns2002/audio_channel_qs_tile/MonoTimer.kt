@@ -48,10 +48,6 @@ object MonoTimer {
         false
     }
 
-    private fun setMono(context: Context, on: Boolean) {
-        Settings.System.putInt(context.contentResolver, "master_mono", if (on) 1 else 0)
-    }
-
     // endregion
 
     // region timer state
@@ -106,7 +102,7 @@ object MonoTimer {
 
     /** Enables Mono for DURATIONS[index] and (re)schedules the expiry alarm. */
     fun startDuration(context: Context, index: Int) {
-        setMono(context, true)
+        AudioSwitch.setMono(context, true)
         val seconds = DURATIONS[index]
         val editor = prefs(context).edit().putInt(KEY_DURATION_INDEX, index)
         if (seconds == -1) {
@@ -122,7 +118,7 @@ object MonoTimer {
 
     /** Reverts to Stereo and clears all timer state. */
     fun turnOff(context: Context) {
-        setMono(context, false)
+        AudioSwitch.setMono(context, false)
         cancelAlarm(context)
         prefs(context).edit()
             .putInt(KEY_DURATION_INDEX, -1)
@@ -144,7 +140,8 @@ object MonoTimer {
 
     private fun scheduleAlarm(context: Context, expiryElapsed: Long) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        // targetSdk 22 => SCHEDULE_EXACT_ALARM is not enforced.
+        // Exact-alarm restrictions don't apply: the standard flavor's targetSdk 22 predates
+        // them, and the privileged flavor declares USE_EXACT_ALARM.
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             expiryElapsed,
