@@ -10,20 +10,18 @@ This is a fork of [VarunS2002/Android-Audio-Channel-QS-Tile](https://github.com/
 
 ## Features
 
-- Tapping the tile enables Mono and starts a countdown, shown live on the tile
-- Tapping again within 5 seconds cycles the duration: **1 min → 5 min → 10 min → ∞ → off**
-- Tapping after 5 seconds simply toggles Mono off
-- **Long-pressing** the tile jumps straight to **∞** (no timer)
-- When the timer expires, Mono reliably reverts to Stereo — even if the app's process was killed in the background
-- After a reboot, Mono reverts to Stereo (timers don't survive reboots)
-- Tile is highlighted while Mono is on and dimmed when in Stereo
+Mono runs on a timer, controlled entirely from the tile:
 
 | Gesture | Effect |
 |---|---|
-| Tap (from off) | Mono, 1:00 countdown |
-| Tap again within 5s | Cycle: 5:00 → 10:00 → ∞ → off |
-| Tap after 5s | Toggle off |
-| Long-press | Straight to ∞ |
+| Tap (from off) | Mono on, 1:00 countdown |
+| Tap again within 5s | Cycle the duration: 5:00 → 10:00 → ∞ → off |
+| Tap after 5s | Toggle Mono off |
+| Long-press | Straight to ∞ (no timer) |
+
+- The countdown is shown live on the tile, which is highlighted while Mono is on and dimmed in Stereo
+- When the timer expires, Mono reliably reverts to Stereo — even if the app's process was killed in the background
+- Mono also reverts to Stereo after a reboot (timers don't survive reboots)
 
 ## Downloads
 
@@ -56,10 +54,8 @@ Grab the APK from the [Releases](https://github.com/ethanm6/Android-Audio-Channe
 ## Notes
 
 - Regarding **Play Protect** / *"built for an older version of Android"* warnings (standard build only):
-  - These appear because the standard build targets Android 5.1 (Lollipop/SDK 22).
-  - This is intentional: apps targeting Android 6 (Marshmallow/SDK 23) and above are not allowed to modify secure system settings such as "Audio Channel" — not even with special permissions granted.
-  - The Shizuku/Root build sidesteps this by performing the write as the shell user (Shizuku) or root, so it targets the current SDK and produces no warnings.
-  - The app is safe to install and use, and no data is collected.
+  - The standard build targets Android 5.1 (SDK 22) because apps targeting Android 6 (SDK 23) or newer aren't allowed to modify secure system settings like "Audio Channel", even with permissions granted.
+  - It's safe to install and collects no data. The Shizuku/Root build sidesteps the whole issue (see Downloads).
 
 - Long-pressing the tile closes the notification shade — this is enforced by Android (long-press launches an activity) and cannot be avoided.
 
