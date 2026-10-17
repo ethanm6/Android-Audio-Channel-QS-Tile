@@ -67,6 +67,10 @@ class AudioChannelQSTile : TileService() {
 
     /** Starts a 1 s ticker to animate the countdown, only for an active finite timer. */
     private fun startTickerIfNeeded() {
+        // Never leave an orphan running: refreshTile() (called after each privileged write)
+        // re-fires onStartListening while the panel is open, which would otherwise stack
+        // tickers and let an old one call turnOff() at a stale expiry.
+        stopTicker()
         // remainingSeconds is -1 when no session is active or the session is infinite.
         val remaining = MonoTimer.remainingSeconds(this)
         if (remaining < 0) return
@@ -78,8 +82,11 @@ class AudioChannelQSTile : TileService() {
 
             override fun onFinish() {
                 // The alarm reverts Mono independently; do it here too for an instant update
-                // when the user is watching the panel.
-                MonoTimer.turnOff(this@AudioChannelQSTile)
+                // when the user is watching the panel. Only revert if the session really has
+                // expired — a newer session may have replaced this one.
+                if (MonoTimer.remainingSeconds(this@AudioChannelQSTile) == 0) {
+                    MonoTimer.turnOff(this@AudioChannelQSTile)
+                }
                 renderTile()
             }
         }.start()
